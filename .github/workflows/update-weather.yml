@@ -1,0 +1,33 @@
+name: Update Weather
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-weather:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch weather data
+        run: |
+          curl "https://api.open-meteo.com/v1/forecast?latitude=35.6812&longitude=139.7671&current=temperature_2m&timezone=Asia%2FTokyo" \
+          -o weather.json
+
+      - name: Create weather.txt
+        run: |
+          TEMP=$(jq '.current.temperature_2m' weather.json)
+          echo "東京：${TEMP}℃" > weather.txt
+
+      - name: Commit updated weather
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add weather.txt
+          git commit -m "Update weather" || exit 0
+          git push
