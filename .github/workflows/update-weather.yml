@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Fetch weather data
         run: |
@@ -36,6 +36,27 @@ jobs:
             3)
               WEATHER="曇り"
               ;;
+            45)
+              WEATHER="霧"
+              ;;
+            48)
+              WEATHER="着氷性の霧"
+              ;;
+            51)
+              WEATHER="弱い霧雨"
+              ;;
+            53)
+              WEATHER="霧雨"
+              ;;
+            55)
+              WEATHER="強い霧雨"
+              ;;
+            56)
+              WEATHER="弱い着氷性霧雨"
+              ;;
+            57)
+              WEATHER="強い着氷性霧雨"
+              ;;
             61)
               WEATHER="弱い雨"
               ;;
@@ -44,6 +65,48 @@ jobs:
               ;;
             65)
               WEATHER="強い雨"
+              ;;
+            66)
+              WEATHER="弱い着氷性の雨"
+              ;;
+            67)
+              WEATHER="強い着氷性の雨"
+              ;;
+            71)
+              WEATHER="弱い雪"
+              ;;
+            73)
+              WEATHER="雪"
+              ;;
+            75)
+              WEATHER="強い雪"
+              ;;
+            77)
+              WEATHER="霧雪"
+              ;;
+            80)
+              WEATHER="弱いにわか雨"
+              ;;
+            81)
+              WEATHER="にわか雨"
+              ;;
+            82)
+              WEATHER="激しいにわか雨"
+              ;;
+            85)
+              WEATHER="弱いにわか雪"
+              ;;
+            86)
+              WEATHER="強いにわか雪"
+              ;;
+            95)
+              WEATHER="雷雨"
+              ;;
+            96)
+              WEATHER="ひょうを伴う雷雨"
+              ;;
+            99)
+              WEATHER="激しいひょうを伴う雷雨"
               ;;
             *)
               WEATHER="不明"
