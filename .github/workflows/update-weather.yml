@@ -16,13 +16,40 @@ jobs:
 
       - name: Fetch weather data
         run: |
-          curl "https://api.open-meteo.com/v1/forecast?latitude=35.6812&longitude=139.7671&current=temperature_2m&timezone=Asia%2FTokyo" \
+          curl "https://api.open-meteo.com/v1/forecast?latitude=35.6812&longitude=139.7671&current=temperature_2m,weather_code&timezone=Asia%2FTokyo" \
           -o weather.json
 
       - name: Create weather.txt
         run: |
           TEMP=$(jq '.current.temperature_2m' weather.json)
-          echo "東京：${TEMP}℃" > weather.txt
+          CODE=$(jq '.current.weather_code' weather.json)
+          case "$CODE" in
+            0)
+              WEATHER="快晴"
+              ;;
+            1)
+              WEATHER="晴れ"
+              ;;
+            2)
+              WEATHER="一部曇り"
+              ;;
+            3)
+              WEATHER="曇り"
+              ;;
+            61)
+              WEATHER="弱い雨"
+              ;;
+            63)
+              WEATHER="雨"
+              ;;
+            65)
+              WEATHER="強い雨"
+              ;;
+            *)
+              WEATHER="不明"
+              ;;
+          esac
+          echo "東京：${WEATHER} ${TEMP}℃" > weather.txt
 
       - name: Commit updated weather
         run: |
