@@ -22,14 +22,18 @@ jobs:
           curl "https://www.stat-search.boj.or.jp/api/v1/getDataCode?format=json&lang=jp&db=FM08&code=FXERD04&startDate=${PREVIOUS_MONTH}&endDate=${CURRENT_MONTH}" \
             -o usd_jpy.json
 
-          echo "=== Top level ==="
-          jq 'keys' usd_jpy.json
+          LAST_INDEX=$(jq '
+          .RESULTSET[0].VALUES.VALUES
+          | to_entries
+          | map(select(.value != null))
+          | last
+          | .key
+          ' usd_jpy.json)
           
-          echo "=== RESULTSET ==="
-          jq '.RESULTSET | keys' usd_jpy.json
+          USDJPY=$(jq -r ".RESULTSET[0].VALUES.VALUES[$LAST_INDEX]" usd_jpy.json)
           
-          echo "=== RESULTSET[0] ==="
-          jq '.RESULTSET[0] | keys' usd_jpy.json
-
-          echo "=== VALUES ==="
-          jq '.RESULTSET[0].VALUES' usd_jpy.json
+          USDJPY_DATE=$(jq -r ".RESULTSET[0].VALUES.SURVEY_DATES[$LAST_INDEX]" usd_jpy.json)
+          
+          echo "Last index = $LAST_INDEX"
+          echo "USD/JPY = $USDJPY"
+          echo "Date = $USDJPY_DATE"
