@@ -24,6 +24,9 @@ jobs:
 
           echo "=== Top level ==="
           jq 'keys' usd_jpy.json
-
+          
           echo "=== RESULTSET ==="
           jq '.RESULTSET | keys' usd_jpy.json
+          
+          echo "=== RESULTSET[0] ==="
+          jq '.RESULTSET[0] | keys' usd_jpy.json
