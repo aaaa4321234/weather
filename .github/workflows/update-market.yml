@@ -13,13 +13,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
-        
+
       - name: Fetch USD/JPY data
         run: |
-          curl "https://api.stlouisfed.org/fred/series/observations?series_id=DEXJPUS&api_key=${{ secrets.FRED_API_KEY }}&file_type=json" \
-          -o usd_jpy.json
+          CURRENT_MONTH=$(TZ=Asia/Tokyo date +%Y%m)
+          PREVIOUS_MONTH=$(TZ=Asia/Tokyo date -d "1 month ago" +%Y%m)
 
-      - name: Get latest USD/JPY
-        run: |
-          USDJPY=$(jq -r '[.observations[] | select(.value != ".")] | last | .value' usd_jpy.json)
-          echo "USD/JPY = $USDJPY"
+          curl "https://www.stat-search.boj.or.jp/api/v1/getDataCode?format=json&lang=jp&db=FM08&code=FXERD04&startDate=${PREVIOUS_MONTH}&endDate=${CURRENT_MONTH}" \
+            -o usd_jpy.json
+            
+            jq 'keys' usd_jpy.json
