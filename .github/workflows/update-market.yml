@@ -34,6 +34,5 @@ jobs:
           
           USDJPY_DATE=$(jq -r ".RESULTSET[0].VALUES.SURVEY_DATES[$LAST_INDEX]" usd_jpy.json)
           
-          echo "Last index = $LAST_INDEX"
-          echo "USD/JPY = $USDJPY"
-          echo "Date = $USDJPY_DATE"
+          echo "USD/JPY = $USDJPY" > market.txt
+          echo "Updated: $USDJPY_DATE" >> market.txt
