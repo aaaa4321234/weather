@@ -30,3 +30,6 @@ jobs:
           
           echo "=== RESULTSET[0] ==="
           jq '.RESULTSET[0] | keys' usd_jpy.json
+
+          echo "=== VALUES ==="
+          jq '.RESULTSET[0].VALUES' usd_jpy.json
