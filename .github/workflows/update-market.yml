@@ -22,4 +22,8 @@ jobs:
           curl "https://www.stat-search.boj.or.jp/api/v1/getDataCode?format=json&lang=jp&db=FM08&code=FXERD04&startDate=${PREVIOUS_MONTH}&endDate=${CURRENT_MONTH}" \
             -o usd_jpy.json
 
+          echo "=== Top level ==="
           jq 'keys' usd_jpy.json
+
+          echo "=== RESULTSET ==="
+          jq '.RESULTSET | keys' usd_jpy.json
